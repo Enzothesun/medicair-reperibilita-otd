@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestione Reperibilità OTD</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --primary: #2463eb;
+      --primary-dark: #1e40af;
+      --text: #172033;
+      --muted: #64748b;
+      --border: #dbe3ef;
+      --green-bg: #e8f8ef;
+      --green: #14804a;
+      --yellow-bg: #fff7df;
+      --yellow: #9a6700;
+      --red-bg: #fdecec;
+      --red: #b42318;
+      --shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #eef4ff 0%, #f8fbff 45%, #f4f7fb 100%);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 18px 48px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #1d4ed8, #38bdf8);
+      color: #fff;
+      border-radius: 26px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      right: -70px;
+      top: -90px;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(30px, 4vw, 46px);
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: 17px;
+      opacity: 0.95;
+      line-height: 1.45;
+    }
+
+    .signature {
+      margin-top: 18px;
+      display: inline-block;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 9px 13px;
+      border-radius: 999px;
+      font-size: 14px;
+    }
+
+    .top-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin: 18px 0 10px;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .reset-btn {
+      border: 0;
+      background: #fff;
+      color: var(--primary-dark);
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    .section {
+      background: rgba(255,255,255,0.82);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      margin-top: 18px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .section-title {
+      margin: 0 0 6px;
+      font-size: 24px;
+      letter-spacing: -0.03em;
+    }
+
+    .section-subtitle {
+      margin: 0 0 20px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+      gap: 14px;
+    }
+
+    .choice-card {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 112px;
+      text-align: left;
+      transition: 0.18s ease;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+    }
+
+    .choice-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--primary);
+      box-shadow: 0 10px 22px rgba(29, 78, 216, 0.12);
+    }
+
+    .choice-card.active {
+      border-color: var(--primary);
+      background: #eef5ff;
+    }
+
+    .choice-icon {
+      font-size: 28px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .choice-title {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .choice-desc {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .question-block {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .question-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 12px;
+    }
+
+    .option-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .option-btn {
+      border: 2px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      padding: 11px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: 0.16s ease;
+    }
+
+    .option-btn:hover, .option-btn.active {
+      border-color: var(--primary);
+      background: #eef5ff;
+      color: var(--primary-dark);
+    }
+
+    .result-card {
+      margin-top: 18px;
+      border-radius: 22px;
+      padding: 22px;
+      border: 2px solid transparent;
+    }
+
+    .result-card h3 {
+      margin: 0 0 12px;
+      font-size: 25px;
+      letter-spacing: -0.03em;
+    }
+
+    .result-card p {
+      margin: 0 0 10px;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+
+    .result-card ul {
+      margin: 8px 0 0;
+      padding-left: 20px;
+      line-height: 1.55;
+    }
+
+    .result-green { background: var(--green-bg); border-color: #9fe2bd; color: #0f5132; }
+    .result-yellow { background: var(--yellow-bg); border-color: #ffd978; color: #684500; }
+    .result-red { background: var(--red-bg); border-color: #ffb4ad; color: #7a271a; }
+
+    .copy-box {
+      margin-top: 14px;
+      background: rgba(255,255,255,0.75);
+      border: 1px dashed currentColor;
+      border-radius: 16px;
+      padding: 14px;
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+
+    .hidden { display: none; }
+
+    footer {
+      margin-top: 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 620px) {
+      .page { padding: 18px 12px 36px; }
+      .hero, .section { padding: 20px; border-radius: 20px; }
+      .choice-card { min-height: auto; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div class="hero-content">
+        <h1>Gestione Reperibilità OTD</h1>
+        <p>Supporto operativo per le casistiche di reperibilità Medicair in ossigenoterapia domiciliare.</p>
+        <div class="signature">Tool sviluppato da Enzo Motti · Subject Matter Expert Mediacom</div>
+      </div>
+    </header>
+
+    <div class="top-actions">
+      <button class="reset-btn" onclick="resetTool()">↺ Nuova ricerca</button>
+    </div>
+
+    <section class="section" id="caseSection">
+      <h2 class="section-title">Seleziona la casistica</h2>
+      <p class="section-subtitle">Scegli lo scenario più vicino alla richiesta ricevuta.</p>
+      <div class="grid" id="caseGrid"></div>
+    </section>
+
+    <section class="section hidden" id="flowSection">
+      <h2 class="section-title" id="flowTitle"></h2>
+      <p class="section-subtitle" id="flowSubtitle"></p>
+      <div id="questions"></div>
+      <div id="result"></div>
+    </section>
+
+    <footer>
+      Medicair OTD · Strumento di supporto operativo interno
+    </footer>
+  </main>
+
+  <script>
+    const cases = [
+      {
+        id: 'trasferte',
+        icon: '🚚',
+        title: 'Trasferte e spostamenti',
+        desc: 'Spostamento paziente, cambio indirizzo, RSA, dimissioni, villeggiatura.',
+        subtitle: 'Verifica destinazione, motivo, ASL e possibili autorizzazioni.',
+        questions: [
+          { id: 'spostamento', title: 'Dove si sposta il paziente?', options: ['Stesso comune', 'Altro comune stessa regione', 'Altra regione'] },
+          { id: 'motivo', title: 'Motivo dello spostamento', options: ['RSA', 'Dimissione ospedaliera', 'Mancanza energia', 'Trasloco', 'Lavori abitazione', 'Allagamento', 'Incendio', 'Paziente già presente nella località', 'Visita parenti/amici', 'Villeggiatura non concordata', 'Altro'] },
+          { id: 'asl', title: 'ASL / Area di appartenenza', options: ['Roma 5', 'Roma 6', 'Bologna', 'Genova', 'Torino 3', 'Novara', 'Puglia', 'Calabria', 'Altra ASL'] },
+          { id: 'preavviso', title: 'Il preavviso richiesto dalla ASL è rispettato?', options: ['Sì', 'No', 'Non previsto / Non so'] },
+          { id: 'denuncia', title: 'Il paziente minaccia denuncia?', options: ['Sì', 'No'] }
+        ],
+        evaluate: answers => {
+          const motiviOk = ['RSA', 'Dimissione ospedaliera', 'Mancanza energia', 'Trasloco', 'Lavori abitazione', 'Allagamento', 'Incendio', 'Paziente già presente nella località'];
+          const motiviNo = ['Visita parenti/amici', 'Villeggiatura non concordata'];
+          const aslPreavviso = {
+            'Roma 5': '15 giorni',
+            'Roma 6': '15 giorni',
+            'Bologna': '10 giorni',
+            'Genova': '7 giorni',
+            'Torino 3': '12 giorni',
+            'Novara': '12 giorni'
+          };
+
+          if (answers.denuncia === 'Sì') {
+            return result('yellow', 'VERIFICA NECESSARIA', 'Il paziente minaccia denuncia.', ['Contattare il terzo livello prima di dare risposta definitiva.'], 'Minaccia denuncia segnalata dal paziente.\nEscalation al terzo livello per valutazione/autorizzazione.');
+          }
+
+          if (answers.spostamento === 'Altra regione' && ['Puglia', 'Calabria'].includes(answers.asl)) {
+            return result('red', 'NON PROCEDERE', 'Per Puglia e Calabria non è possibile effettuare spostamenti fuori regione senza autorizzazione preventiva ASL.', ['Richiedere autorizzazione preventiva ASL.', 'Rimandare la gestione al primo giorno lavorativo se non presente autorizzazione.'], 'Spostamento fuori regione Puglia/Calabria.\nNecessaria autorizzazione preventiva ASL.');
+          }
+
+          if (answers.asl === 'Torino 3' && answers.spostamento !== 'Stesso comune') {
+            return result('yellow', 'AUTORIZZAZIONE NECESSARIA', 'Per ASL Torino 3 è necessaria autorizzazione se il paziente esce dal territorio ASL.', ['Verificare autorizzazione preventiva.', 'In assenza di autorizzazione non procedere.'], 'ASL Torino 3: spostamento fuori territorio ASL.\nNecessaria autorizzazione preventiva.');
+          }
+
+          if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
+            return result('red', 'NON PROCEDERE', `Preavviso non rispettato. Per ${answers.asl} è richiesto preavviso di ${aslPreavviso[answers.asl]}.`, ['Rimandare al primo giorno lavorativo.', 'Non attivare gestione in emergenza salvo diversa autorizzazione.'], `Preavviso ASL non rispettato.\n${answers.asl}: richiesto preavviso di ${aslPreavviso[answers.asl]}.`);
+          }
+
+          if (motiviNo.includes(answers.motivo)) {
+            return result('red', 'NON PROCEDERE', 'La motivazione indicata non rientra tra le urgenze gestibili in reperibilità.', ['Invitare il paziente a richiamare il primo giorno lavorativo.'], 'Richiesta non urgente / non gestibile in reperibilità.\nInvitato a richiamare il primo giorno lavorativo.');
+          }
+
+          if (motiviOk.includes(answers.motivo)) {
+            return result('green', 'PROCEDERE', 'La casistica rientra tra quelle gestibili.', ['Comunicare al vettore della zona.', 'Annotare motivo dello spostamento e località di destinazione.'], 'Spostamento gestibile in reperibilità.\nMotivo: ' + answers.motivo + '.\nComunicare al vettore della zona.');
+          }
+
+          return result('yellow', 'VERIFICA NECESSARIA', 'La casistica selezionata richiede valutazione.', ['Contattare secondo/terzo livello secondo procedura.'], 'Casistica non standard.\nRichiesta verifica con livello superiore.');
+        }
+      },
+      {
+        id: 'farmacia',
+        icon: '🏥',
+        title: 'Richiesta farmacia ossigeno gassoso',
+        desc: 'Farmacia richiede consegna bombole in emergenza.',
+        subtitle: 'Esito diretto: non si effettuano consegne di gassoso in emergenza.',
+        questions: [],
+        evaluate: () => result('red', 'NON PROCEDERE', 'Non vengono effettuate consegne di bombole di ossigeno gassoso in emergenza.', ['Invitare la farmacia a richiamare il primo giorno lavorativo.'], 'Richiesta farmacia per ossigeno gassoso.\nComunicata impossibilità di consegna in emergenza.\nInvitata a richiamare il primo giorno lavorativo.')
+      },
+      {
+        id: 'vettore',
+        icon: '📞',
+        title: 'Vettore irreperibile',
+        desc: 'Emergenza con vettore non raggiungibile.',
+        subtitle: 'Gestione tentativi ed escalation.',
+        questions: [
+          { id: 'tentativi', title: 'Sono stati effettuati 3 tentativi?', options: ['Sì', 'No'] },
+          { id: 'secondoLivello', title: 'Il secondo livello risponde?', options: ['Sì', 'No', 'Non ancora contattato'] },
+          { id: 'risolto', title: 'La richiesta è stata risolta?', options: ['Sì', 'No'] }
+        ],
+        evaluate: answers => {
+          if (answers.tentativi === 'No') {
+            return result('yellow', 'EFFETTUARE ALTRI TENTATIVI', 'Prima dell’escalation devono essere effettuati massimo 3 tentativi.', ['Lasciare sempre squillare fino alla caduta della chiamata.', 'Se non risponde, procedere con escalation al secondo livello.'], 'Vettore irreperibile.\nEffettuare massimo 3 tentativi lasciando squillare fino alla caduta.');
+          }
+          if (answers.secondoLivello === 'Non ancora contattato') {
+            return result('yellow', 'ESCALATION SECONDO LIVELLO', 'Dopo 3 tentativi senza risposta occorre contattare il secondo livello.', ['Se non presente, contattare i vettori afferenti alla stessa filiale.'], 'Effettuati 3 tentativi senza risposta.\nProcedere con escalation al secondo livello.');
+          }
+          if (answers.secondoLivello === 'No' && answers.risolto === 'No') {
+            return result('yellow', 'ESCALATION TERZO LIVELLO', 'Secondo livello non reperibile e richiesta non risolta.', ['Tentare con altro reperibile o secondo livello di altra cooperativa.', 'In caso di ostacoli, procedere con escalation al terzo livello.'], 'Vettore e secondo livello irreperibili.\nTentato altro reperibile/secondo livello altra cooperativa.\nEscalation terzo livello.');
+          }
+          if (answers.risolto === 'Sì') {
+            return result('green', 'GESTIONE RISOLTA', 'La richiesta è stata presa in carico.', ['Annotare i contatti effettuati e l’esito.'], 'Richiesta gestita tramite escalation/contatto alternativo.');
+          }
+          return result('yellow', 'PROSEGUIRE ESCALATION', 'Continuare la gestione secondo reperibilità.', ['Contattare vettori stessa filiale o livelli superiori secondo necessità.'], 'Gestione irreperibilità vettore in corso.');
+        }
+      },
+      {
+        id: 'stroller',
+        icon: '👜',
+        title: 'Consegna / sostituzione stroller',
+        desc: 'Richiesta portatile/stroller in emergenza.',
+        subtitle: 'Non è urgenza salvo eccezioni specifiche.',
+        questions: [
+          { id: 'situazione', title: 'Quale situazione si verifica?', options: ['Paziente nuovo senza portatile', 'Paziente arrivato in aereo', 'Malfunzionamento stroller', 'Altra richiesta'] },
+          { id: 'urgente', title: 'Il paziente ne necessita urgentemente?', options: ['Sì', 'No'] },
+          { id: 'altraDitta', title: 'Lo stroller è gestito da altra ditta?', options: ['Sì', 'No'] }
+        ],
+        evaluate: answers => {
+          if (answers.altraDitta === 'Sì') {
+            return result('red', 'NON PROCEDERE', 'Se il paziente è gestito da altra ditta deve contattare la ditta fornitrice.', ['Non aprire intervento Medicair.', 'Invitare il paziente a contattare altra ditta.'], 'Stroller gestito da altra ditta.\nInvitato il paziente a contattare la ditta fornitrice.');
+          }
+          if (answers.situazione === 'Paziente nuovo senza portatile' && answers.urgente === 'Sì') {
+            return result('green', 'PROCEDERE', 'Paziente nuovo senza portatile con necessità urgente.', ['Attivare consegna secondo procedura.'], 'Paziente nuovo senza portatile.\nNecessità urgente confermata.\nProcedere con consegna.');
+          }
+          if (answers.situazione === 'Paziente arrivato in aereo' && answers.urgente === 'Sì') {
+            return result('green', 'PROCEDERE', 'Paziente arrivato in aereo e necessita urgentemente del portatile.', ['Attivare consegna se necessario.'], 'Paziente arrivato in aereo.\nNecessità urgente del portatile confermata.\nProcedere con consegna.');
+          }
+          if (answers.situazione === 'Malfunzionamento stroller' && answers.urgente === 'Sì') {
+            return result('yellow', 'VERIFICA NECESSARIA', 'Malfunzionamento stroller con insistenza/necessità urgente del paziente.', ['Valutare sostituzione secondo procedura e disponibilità.', 'Se gestito da altra ditta, rimandare alla ditta fornitrice.'], 'Malfunzionamento stroller segnalato.\nNecessità urgente dichiarata.\nVerificare gestione/sostituzione.');
+          }
+          return result('red', 'NON PROCEDERE', 'La consegna/sostituzione stroller non è considerata urgenza.', ['Invitare il paziente a richiamare il primo giorno lavorativo.'], 'Richiesta stroller non urgente.\nInvitato a richiamare il primo giorno lavorativo.');
+        }
+      },
+      {
+        id: 'competitor',
+        icon: '🤝',
+        title: 'Paziente servito da competitor',
+        desc: 'Paziente Medicair in trasferta servito da altra ditta.',
+        subtitle: 'Gestione contatto competitor ed eventuale autorizzazione.',
+        questions: [
+          { id: 'autorizzazione', title: 'Il competitor richiede autorizzazione Medicair?', options: ['Sì', 'No'] }
+        ],
+        evaluate: answers => {
+          if (answers.autorizzazione === 'Sì') {
+            return result('green', 'PROCEDERE', 'L’operatore può autorizzare la consegna.', ['Inviare mail al competitor.', 'Mettere sempre in copia inviaggio@medicair.it.'], 'Autorizzazione consegna competitor.\nInviare mail al competitor.\nCC: inviaggio@medicair.it');
+          }
+          return result('yellow', 'INDIRIZZARE AL COMPETITOR', 'Il paziente deve contattare il numero verde del competitor per richiedere la fornitura in emergenza.', ['Non aprire intervento diretto Medicair se la gestione è del competitor.'], 'Paziente in trasferta servito da competitor.\nInvitato a contattare il numero verde del competitor.');
+        }
+      },
+      {
+        id: 'fuoriresidenza',
+        icon: '🏠',
+        title: 'Concentratore fuori residenza',
+        desc: 'Paziente con concentratore fuori residenza in area non servita.',
+        subtitle: 'Gestione tramite tecnico abituale.',
+        questions: [],
+        evaluate: () => result('yellow', 'VERIFICA NECESSARIA', 'Contattare il tecnico che segue abitualmente il paziente.', ['Non procedere in autonomia senza verifica tecnica.'], 'Paziente con concentratore fuori residenza.\nContattare il tecnico che segue abitualmente il paziente.')
+      },
+      {
+        id: 'concentratore',
+        icon: '🔧',
+        title: 'Problematiche concentratore',
+        desc: 'Segnalazione guasto o malfunzionamento concentratore.',
+        subtitle: 'Verifica guasto prima della sostituzione.',
+        questions: [
+          { id: 'guasto', title: 'Il concentratore risulta realmente guasto?', options: ['Sì', 'No'] }
+        ],
+        evaluate: answers => {
+          if (answers.guasto === 'Sì') {
+            return result('green', 'PROCEDERE', 'Guasto confermato.', ['Procedere alla sostituzione secondo procedura.', 'Il vettore deve contattare il paziente prima della sostituzione.'], 'Concentratore realmente guasto.\nProcedere alla sostituzione secondo procedura.');
+          }
+          return result('red', 'NON PROCEDERE', 'Guasto non confermato.', ['Non procedere con sostituzione.', 'Effettuare/verificare prove di funzionamento.'], 'Guasto concentratore non confermato.\nNon procedere con sostituzione.');
+        }
+      }
+    ];
+
+    let selectedCase = null;
+    let answers = {};
+
+    function init() {
+      const grid = document.getElementById('caseGrid');
+      grid.innerHTML = cases.map(item => `
+        <button class="choice-card" id="case-${item.id}" onclick="selectCase('${item.id}')">
+          <span class="choice-icon">${item.icon}</span>
+          <span class="choice-title">${item.title}</span>
+          <span class="choice-desc">${item.desc}</span>
+        </button>
+      `).join('');
+    }
+
+    function selectCase(id) {
+      selectedCase = cases.find(item => item.id === id);
+      answers = {};
+      document.querySelectorAll('.choice-card').forEach(card => card.classList.remove('active'));
+      document.getElementById('case-' + id).classList.add('active');
+
+      document.getElementById('flowSection').classList.remove('hidden');
+      document.getElementById('flowTitle').textContent = selectedCase.icon + ' ' + selectedCase.title;
+      document.getElementById('flowSubtitle').textContent = selectedCase.subtitle;
+      document.getElementById('result').innerHTML = '';
+      renderQuestions();
+
+      if (selectedCase.questions.length === 0) {
+        showResult();
+      }
+
+      document.getElementById('flowSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questions');
+      container.innerHTML = selectedCase.questions.map(q => `
+        <div class="question-block">
+          <p class="question-title">${q.title}</p>
+          <div class="option-row">
+            ${q.options.map(option => `
+              <button class="option-btn" data-question="${q.id}" data-option="${option}" onclick="answerQuestion('${q.id}', '${escapeOption(option)}')">${option}</button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function escapeOption(value) {
+      return value.replace(/'/g, "\\'");
+    }
+
+    function answerQuestion(questionId, option) {
+      answers[questionId] = option;
+      document.querySelectorAll(`[data-question="${questionId}"]`).forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`[data-question="${questionId}"][data-option="${option}"]`).classList.add('active');
+      showResult();
+    }
+
+    function showResult() {
+      if (!selectedCase) return;
+      const output = selectedCase.evaluate(answers);
+      document.getElementById('result').innerHTML = output;
+    }
+
+    function result(type, title, message, actions, note) {
+      const className = type === 'green' ? 'result-green' : type === 'yellow' ? 'result-yellow' : 'result-red';
+      return `
+        <div class="result-card ${className}">
+          <h3>${title}</h3>
+          <p>${message}</p>
+          <strong>Azione operativa:</strong>
+          <ul>${actions.map(action => `<li>${action}</li>`).join('')}</ul>
+          <div class="copy-box"><strong>Nota operatore</strong>\n${note}</div>
+        </div>
+      `;
+    }
+
+    function resetTool() {
+      selectedCase = null;
+      answers = {};
+      document.querySelectorAll('.choice-card').forEach(card => card.classList.remove('active'));
+      document.getElementById('flowSection').classList.add('hidden');
+      document.getElementById('questions').innerHTML = '';
+      document.getElementById('result').innerHTML = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    init();
+  </script>
+</body>
+</html>
