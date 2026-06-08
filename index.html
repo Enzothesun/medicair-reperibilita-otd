@@ -521,8 +521,7 @@ if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
       const container = document.getElementById('questions');
       container.innerHTML = selectedCase.questions.map(q => `
         <div class="question-block">
-          <p class="question-title">${q.title}</p>
-          <div class="option-row">
+          
             ${q.options.map(option => `
               <button class="option-btn" data-question="${q.id}" data-option="${option}" onclick="answerQuestion('${q.id}', '${escapeOption(option)}')">${option}</button>
             `).join('')}
