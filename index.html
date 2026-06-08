@@ -332,14 +332,34 @@
           if (answers.asl === 'Torino 3' && answers.spostamento !== 'Stesso comune') {
             return result('yellow', 'AUTORIZZAZIONE NECESSARIA', 'Per ASL Torino 3 è necessaria autorizzazione se il paziente esce dal territorio ASL.', ['Verificare autorizzazione preventiva.', 'In assenza di autorizzazione non procedere.'], 'ASL Torino 3: spostamento fuori territorio ASL.\nNecessaria autorizzazione preventiva.');
           }
+if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
+  return result(
+    'yellow',
+    'APRIRE TICKET E DEMANDARE AL DIURNO',
+    `Preavviso non rispettato. Per ${answers.asl} è richiesto preavviso di ${aslPreavviso[answers.asl]}.`,
+    [
+      'Aprire ticket.',
+      'Inserire tutti i dati della trasferta.',
+      'Informare il paziente che verrà ricontattato dal servizio competente.'
+    ],
+    'Trasferta da definire in orario diurno.'
+  );
+}
+       if (motiviNo.includes(answers.motivo)) {
+  return result(
+    'yellow',
+    'APRIRE TICKET E DEMANDARE AL DIURNO',
+    'La motivazione indicata non rientra tra le urgenze gestibili in reperibilità.',
+    [
+      'Aprire ticket.',
+      'Inserire tutti i dati della trasferta.',
+      'Informare il paziente che verrà ricontattato dal servizio competente.'
+    ],
+    'Trasferta da definire in orario diurno.'
+  );
+}   
 
-          if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
-            return result('red', 'NON PROCEDERE', `Preavviso non rispettato. Per ${answers.asl} è richiesto preavviso di ${aslPreavviso[answers.asl]}.`, ['Rimandare al primo giorno lavorativo.', 'Non attivare gestione in emergenza salvo diversa autorizzazione.'], `Preavviso ASL non rispettato.\n${answers.asl}: richiesto preavviso di ${aslPreavviso[answers.asl]}.`);
-          }
-
-          if (motiviNo.includes(answers.motivo)) {
-            return result('red', 'NON PROCEDERE', 'La motivazione indicata non rientra tra le urgenze gestibili in reperibilità.', ['Invitare il paziente a richiamare il primo giorno lavorativo.'], 'Richiesta non urgente / non gestibile in reperibilità.\nInvitato a richiamare il primo giorno lavorativo.');
-          }
+         
 
           if (motiviOk.includes(answers.motivo)) {
             return result('green', 'PROCEDERE', 'La casistica rientra tra quelle gestibili.', ['Comunicare al vettore della zona.', 'Annotare motivo dello spostamento e località di destinazione.'], 'Spostamento gestibile in reperibilità.\nMotivo: ' + answers.motivo + '.\nComunicare al vettore della zona.');
