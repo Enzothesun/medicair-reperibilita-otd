@@ -320,7 +320,13 @@
             'Torino 3': '12 giorni',
             'Novara': '12 giorni'
           };
+if (!answers.spostamento || !answers.motivo || !answers.asl) {
+  return null;
+}
 
+if (aslPreavviso[answers.asl] && !answers.preavviso) {
+  return null;
+}
           if (answers.denuncia === 'Sì') {
             return result('yellow', 'VERIFICA NECESSARIA', 'Il paziente minaccia denuncia.', ['Contattare il terzo livello prima di dare risposta definitiva.'], 'Minaccia denuncia segnalata dal paziente.\nEscalation al terzo livello per valutazione/autorizzazione.');
           }
