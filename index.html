@@ -320,11 +320,15 @@
             'Torino 3': '12 giorni',
             'Novara': '12 giorni'
           };
-if (!answers.spostamento || !answers.motivo || !answers.asl) {
+if (!answers.spostamento || !answers.motivo) {
   return null;
 }
 
-if (aslPreavviso[answers.asl] && !answers.preavviso) {
+if (
+  answers.asl &&
+  aslPreavviso[answers.asl] &&
+  !answers.preavviso
+) {
   return null;
 }
           if (answers.denuncia === 'Sì') {
