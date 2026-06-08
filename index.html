@@ -516,19 +516,30 @@ if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
 
       document.getElementById('flowSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+function renderQuestions() {
+  const container = document.getElementById('questions');
+  container.innerHTML = selectedCase.questions.map(q => `
+    <div class="question-block">
+      <p class="question-title">${q.title}</p>
 
-    function renderQuestions() {
-      const container = document.getElementById('questions');
-      container.innerHTML = selectedCase.questions.map(q => `
-        <div class="question-block">
-          
-            ${q.options.map(option => `
-              <button class="option-btn" data-question="${q.id}" data-option="${option}" onclick="answerQuestion('${q.id}', '${escapeOption(option)}')">${option}</button>
-            `).join('')}
-          </div>
+      ${q.id === 'preavviso' ? `
+        <div class="info-box">
+          <strong>Tempistiche preavviso:</strong><br>
+          • ASL Roma 5/6: 15 giorni<br>
+          • ASL Bologna: 10 giorni<br>
+          • ASL Genova: 7 giorni<br>
+          • ASL Torino 3 e ASL Novara: 12 giorni
         </div>
-      `).join('');
-    }
+      ` : ''}
+
+      <div class="option-row">
+        ${q.options.map(option => `
+          <button class="option-btn" data-question="${q.id}" data-option="${option}" onclick="answerQuestion('${q.id}', '${escapeOption(option)}')">${option}</button>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
 
     function escapeOption(value) {
       return value.replace(/'/g, "\\'");
