@@ -303,11 +303,11 @@
         desc: 'Spostamento paziente, cambio indirizzo, RSA, dimissioni, villeggiatura.',
         subtitle: 'Verifica destinazione, motivo, ASL e possibili autorizzazioni.',
         questions: [
-          { id: 'spostamento', title: 'Dove si sposta il paziente?', options: ['Stesso comune', 'Altro comune stessa regione', 'Altra regione'] },
-          { id: 'motivo', title: 'Motivo dello spostamento', options: ['RSA', 'Dimissione ospedaliera', 'Mancanza energia', 'Trasloco', 'Lavori abitazione', 'Allagamento', 'Incendio', 'Paziente già presente nella località', 'Visita parenti/amici', 'Villeggiatura non concordata', 'Altro'] },
-          { id: 'asl', title: 'ASL / Area di appartenenza', options: ['Roma 5', 'Roma 6', 'Bologna', 'Genova', 'Torino 3', 'Novara', 'Puglia', 'Calabria', 'Altra ASL'] },
-          { id: 'preavviso', title: 'Il preavviso richiesto dalla ASL è rispettato?', options: ['Sì', 'No', 'Non previsto / Non so'] },
-          { id: 'denuncia', title: 'Il paziente minaccia denuncia?', options: ['Sì', 'No'] }
+         { id: 'spostamento', title: 'Dove si sposta il paziente?', options: ['Stesso comune', 'Altro comune stessa regione', 'Altra regione'] },
+{ id: 'asl', title: 'ASL / Area di appartenenza', options: ['Roma 5', 'Roma 6', 'Bologna', 'Genova', 'Torino 3', 'Novara', 'Puglia', 'Calabria', 'Altra ASL'] },
+{ id: 'preavviso', title: 'Il preavviso richiesto dalla ASL è rispettato?', options: ['Sì', 'No', 'Non previsto / Non so'] },
+{ id: 'motivo', title: 'Motivo dello spostamento', options: ['RSA', 'Dimissione ospedaliera', 'Mancanza energia', 'Trasloco', 'Lavori abitazione', 'Allagamento', 'Incendio', 'Paziente già presente nella località', 'Visita parenti/amici', 'Villeggiatura non concordata', 'Altro'] },
+{ id: 'denuncia', title: 'Il paziente minaccia denuncia?', options: ['Sì', 'No'] }
         ],
         evaluate: answers => {
           const motiviOk = ['RSA', 'Dimissione ospedaliera', 'Mancanza energia', 'Trasloco', 'Lavori abitazione', 'Allagamento', 'Incendio', 'Paziente già presente nella località'];
