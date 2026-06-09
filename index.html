@@ -340,9 +340,7 @@ if (
 ) {
   return null;
 }
-          if (answers.denuncia === 'Sì') {
-            return result('yellow', 'VERIFICA NECESSARIA', 'Il paziente minaccia denuncia.', ['Contattare il terzo livello prima di dare risposta definitiva.'], 'Minaccia denuncia segnalata dal paziente.\nEscalation al terzo livello per valutazione/autorizzazione.');
-          }
+        
 
           if (answers.spostamento === 'Altra regione' && ['Puglia', 'Calabria'].includes(answers.asl)) {
             return result('red', 'NON PROCEDERE', 'Per Puglia e Calabria non è possibile effettuare spostamenti fuori regione senza autorizzazione preventiva ASL.', ['Richiedere autorizzazione preventiva ASL.', 'Rimandare la gestione al primo giorno lavorativo se non presente autorizzazione.'], 'Spostamento fuori regione Puglia/Calabria.\nNecessaria autorizzazione preventiva ASL.');
