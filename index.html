@@ -323,11 +323,14 @@
 
 
 if (
-  answers.asl &&
-  aslPreavviso[answers.asl] &&
-  !answers.preavviso
+  !answers.spostamento ||
+  !answers.asl ||
+  !answers.preavviso ||
+  !answers.motivo ||
+  !answers.denuncia
 ) {
   return null;
+}
 }
           if (answers.denuncia === 'Sì') {
             return result('yellow', 'VERIFICA NECESSARIA', 'Il paziente minaccia denuncia.', ['Contattare il terzo livello prima di dare risposta definitiva.'], 'Minaccia denuncia segnalata dal paziente.\nEscalation al terzo livello per valutazione/autorizzazione.');
