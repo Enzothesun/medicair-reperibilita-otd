@@ -553,11 +553,18 @@ function renderQuestions() {
       showResult();
     }
 
-    function showResult() {
-      if (!selectedCase) return;
-      const output = selectedCase.evaluate(answers);
-      document.getElementById('result').innerHTML = output;
-    }
+   function showResult() {
+  if (!selectedCase) return;
+
+  const output = selectedCase.evaluate(answers);
+
+  if (!output) {
+    document.getElementById('result').innerHTML = '';
+    return;
+  }
+
+  document.getElementById('result').innerHTML = output;
+}
 
     function result(type, title, message, actions, note) {
       const className = type === 'green' ? 'result-green' : type === 'yellow' ? 'result-yellow' : 'result-red';
