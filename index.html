@@ -406,14 +406,39 @@ if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
         }
       },
       {
-        id: 'farmacia',
-        icon: '🏥',
-        title: 'Richiesta farmacia ossigeno gassoso',
-        desc: 'Farmacia richiede consegna bombole in emergenza.',
-        subtitle: 'Esito diretto: non si effettuano consegne di gassoso in emergenza.',
-        questions: [],
-        evaluate: () => result('red', 'NON PROCEDERE', 'Non vengono effettuate consegne di bombole di ossigeno gassoso in emergenza.', ['Invitare la farmacia a richiamare il primo giorno lavorativo.'], 'Richiesta farmacia per ossigeno gassoso.\nComunicata impossibilità di consegna in emergenza.\nInvitata a richiamare il primo giorno lavorativo.')
-      },
+      {
+  id: 'farmacia',
+  icon: '🏥',
+  title: 'Richiesta farmacia ossigeno gassoso',
+  desc: 'Farmacia richiede consegna bombole in emergenza.',
+  subtitle: 'Verifica se la farmacia insiste minacciando denuncia.',
+  questions: [
+    { id: 'denunciaFarmacia', title: 'La farmacia insiste minacciando denuncia?', options: ['Sì', 'No'] }
+  ],
+  evaluate: answers => {
+    if (!answers.denunciaFarmacia) {
+      return null;
+    }
+
+    if (answers.denunciaFarmacia === 'Sì') {
+      return result(
+        'yellow',
+        'PROCEDERE ENTRO 48 ORE',
+        'Solo in caso di insistenza con minaccia di denuncia è possibile procedere alla fornitura.',
+        ['Effettuare la fornitura entro 48 ore dalla richiesta.'],
+        'Richiesta farmacia ossigeno gassoso.\nFarmacia insiste minacciando denuncia.\nProcedere con fornitura entro 48 ore dalla richiesta.'
+      );
+    }
+
+    return result(
+      'red',
+      'NON PROCEDERE',
+      'Non vengono effettuate consegne di bombole di ossigeno gassoso in emergenza.',
+      ['Invitare la farmacia a richiamare il primo giorno lavorativo.'],
+      'Richiesta farmacia ossigeno gassoso.\nNessuna minaccia denuncia.\nComunicata impossibilità di consegna in emergenza.\nInvitata a richiamare il primo giorno lavorativo.'
+    );
+  }
+},
       {
         id: 'vettore',
         icon: '📞',
