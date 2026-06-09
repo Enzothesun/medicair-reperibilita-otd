@@ -363,6 +363,15 @@ if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
   );
 }
        if (motiviNo.includes(answers.motivo)) {
+         if (answers.denuncia === 'Sì') {
+  return result(
+    'yellow',
+    'VERIFICA NECESSARIA',
+    'Preavviso non rispettato e il paziente minaccia denuncia.',
+    ['Contattare il terzo livello prima di dare risposta definitiva.'],
+    'Preavviso non rispettato.\nMinaccia denuncia segnalata dal paziente.\nEscalation al terzo livello.'
+  );
+}
   return result(
     'yellow',
     'APRIRE TICKET E DEMANDARE AL DIURNO',
