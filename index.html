@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -350,6 +351,16 @@ if (
             return result('yellow', 'AUTORIZZAZIONE NECESSARIA', 'Per ASL Torino 3 è necessaria autorizzazione se il paziente esce dal territorio ASL.', ['Verificare autorizzazione preventiva.', 'In assenza di autorizzazione non procedere.'], 'ASL Torino 3: spostamento fuori territorio ASL.\nNecessaria autorizzazione preventiva.');
           }
 if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
+  if (answers.denuncia === 'Sì') {
+    return result(
+      'yellow',
+      'VERIFICA NECESSARIA',
+      'Preavviso non rispettato e il paziente minaccia denuncia.',
+      ['Contattare il terzo livello prima di dare risposta definitiva.'],
+      'Preavviso non rispettato.\nMinaccia denuncia segnalata dal paziente.\nEscalation al terzo livello.'
+    );
+  }
+
   return result(
     'yellow',
     'APRIRE TICKET E DEMANDARE AL DIURNO',
