@@ -517,33 +517,32 @@ if (answers.denunciaFarmacia === 'Sì') {
   return null;
 }
 },
-{    
-        id: 'stroller',
-        icon: '👜',
-        title: 'Consegna / sostituzione stroller',
-        desc: 'Richiesta portatile/stroller in emergenza.',
-        subtitle: 'Non è urgenza salvo eccezioni specifiche.',
-        questions: [
-          { id: 'situazione', title: 'Quale situazione si verifica?', options: ['Paziente nuovo senza portatile', 'Paziente arrivato in aereo', 'Malfunzionamento stroller', 'Altra richiesta'] },
-          { id: 'urgente', title: 'Il paziente ne necessita urgentemente?', options: ['Sì', 'No'] },
-          { id: 'altraDitta', title: 'Lo stroller è gestito da altra ditta?', options: ['Sì', 'No'] }
-        ],
-        evaluate: answers => {
-          if (answers.altraDitta === 'Sì') {
-            return result('red', 'NON PROCEDERE', 'Se il paziente è gestito da altra ditta deve contattare la ditta fornitrice.', ['Non aprire intervento Medicair.', 'Invitare il paziente a contattare altra ditta.'], 'Stroller gestito da altra ditta.\nInvitato il paziente a contattare la ditta fornitrice.');
-          }
-          if (answers.situazione === 'Paziente nuovo senza portatile' && answers.urgente === 'Sì') {
-            return result('green', 'PROCEDERE', 'Paziente nuovo senza portatile con necessità urgente.', ['Attivare consegna secondo procedura.'], 'Paziente nuovo senza portatile.\nNecessità urgente confermata.\nProcedere con consegna.');
-          }
-          if (answers.situazione === 'Paziente arrivato in aereo' && answers.urgente === 'Sì') {
-            return result('green', 'PROCEDERE', 'Paziente arrivato in aereo e necessita urgentemente del portatile.', ['Attivare consegna se necessario.'], 'Paziente arrivato in aereo.\nNecessità urgente del portatile confermata.\nProcedere con consegna.');
-          }
-          if (answers.situazione === 'Malfunzionamento stroller' && answers.urgente === 'Sì') {
-            return result('yellow', 'VERIFICA NECESSARIA', 'Malfunzionamento stroller con insistenza/necessità urgente del paziente.', ['Valutare sostituzione secondo procedura e disponibilità.', 'Se gestito da altra ditta, rimandare alla ditta fornitrice.'], 'Malfunzionamento stroller segnalato.\nNecessità urgente dichiarata.\nVerificare gestione/sostituzione.');
-          }
-          return result('red', 'NON PROCEDERE', 'La consegna/sostituzione stroller non è considerata urgenza.', ['Invitare il paziente a richiamare il primo giorno lavorativo.'], 'Richiesta stroller non urgente.\nInvitato a richiamare il primo giorno lavorativo.');
-        }
-      },
+{
+  id: 'stroller',
+  icon: '👜',
+  title: 'Consegna / sostituzione stroller',
+  desc: 'Indicazioni operative per richieste stroller.',
+  subtitle: 'La consegna o sostituzione dello stroller non è normalmente considerata una richiesta urgente.',
+  questions: [],
+  evaluate: () => result(
+    'yellow',
+    'CONSEGNA / SOSTITUZIONE STROLLER',
+    'La consegna o la sostituzione dello stroller non è normalmente considerata una richiesta urgente.',
+    [
+      'Invitare il paziente a richiamare il primo giorno lavorativo.'
+    ],
+    `ECCEZIONI
+
+• Paziente nuovo senza portatile
+Se il paziente è nuovo e deve effettuare visite, esami o spostamenti il giorno successivo, procedere secondo quanto previsto dalla procedura aziendale.
+
+• Paziente arrivato in aereo
+Se il paziente arriva in aereo presso una località di villeggiatura e non dispone dello stroller, effettuare la consegna qualora ne abbia necessità urgente.
+
+• Malfunzionamento stroller
+In caso di malfunzionamento dello stroller, procedere con la sostituzione solo se il paziente insiste per l'intervento in reperibilità.`
+  )
+},
       {
         id: 'competitor',
         icon: '🤝',
