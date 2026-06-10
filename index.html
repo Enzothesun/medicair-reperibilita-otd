@@ -578,10 +578,31 @@ In caso di malfunzionamento dello stroller, procedere con la sostituzione solo s
           { id: 'guasto', title: 'Il concentratore risulta realmente guasto?', options: ['Sì', 'No'] }
         ],
         evaluate: answers => {
-          if (answers.guasto === 'Sì') {
-            return result('green', 'PROCEDERE', 'Guasto confermato.', ['Procedere alla sostituzione secondo procedura.', 'Il vettore deve contattare il paziente prima della sostituzione.'], 'Concentratore realmente guasto.\nProcedere alla sostituzione secondo procedura.');
-          }
-          return result('red', 'NON PROCEDERE', 'Guasto non confermato.', ['Non procedere con sostituzione.', 'Effettuare/verificare prove di funzionamento.'], 'Guasto concentratore non confermato.\nNon procedere con sostituzione.');
+         if (answers.guasto === 'Sì') {
+  return result(
+    'yellow',
+    'VERIFICA TRAMITE VETTORE',
+    'Contattare il vettore per verificare l’effettivo malfunzionamento del concentratore.',
+    [
+      'Contattare il vettore.',
+      'Il vettore verifica l’effettivo malfunzionamento.',
+      'Una volta verificato il malfunzionamento, procedere con la sostituzione.'
+    ],
+    'Segnalazione problematica concentratore.\nVerifica demandata al vettore.\nSostituzione solo dopo conferma del malfunzionamento.'
+  );
+}
+
+return result(
+  'yellow',
+  'VERIFICA TRAMITE VETTORE',
+  'Contattare il vettore per verificare l’effettivo malfunzionamento del concentratore.',
+  [
+    'Contattare il vettore.',
+    'Il vettore verifica l’effettivo malfunzionamento.',
+    'Una volta verificato il malfunzionamento, procedere con la sostituzione.'
+  ],
+  'Segnalazione problematica concentratore.\nVerifica demandata al vettore.\nSostituzione solo dopo conferma del malfunzionamento.'
+);
         }
       }
     ];
