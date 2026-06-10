@@ -446,26 +446,76 @@ if (answers.denunciaFarmacia === 'Sì') {
         subtitle: 'Gestione tentativi ed escalation.',
         questions: [
           { id: 'tentativi', title: 'Sono stati effettuati 3 tentativi?', options: ['Sì', 'No'] },
-          { id: 'secondoLivello', title: 'Il secondo livello risponde?', options: ['Sì', 'No', 'Non ancora contattato'] },
-          { id: 'risolto', title: 'La richiesta è stata risolta?', options: ['Sì', 'No'] }
-        ],
+          { id: 'secondoLivello', title: 'Il secondo livello risponde?', options: ['Sì', 'No', 'Non ancora contattato'] }
+         
         evaluate: answers => {
-          if (answers.tentativi === 'No') {
-            return result('yellow', 'EFFETTUARE ALTRI TENTATIVI', 'Prima dell’escalation devono essere effettuati massimo 3 tentativi.', ['Lasciare sempre squillare fino alla caduta della chiamata.', 'Se non risponde, procedere con escalation al secondo livello.'], 'Vettore irreperibile.\nEffettuare massimo 3 tentativi lasciando squillare fino alla caduta.');
-          }
-          if (answers.secondoLivello === 'Non ancora contattato') {
-            return result('yellow', 'ESCALATION SECONDO LIVELLO', 'Dopo 3 tentativi senza risposta occorre contattare il secondo livello.', ['Se non presente, contattare i vettori afferenti alla stessa filiale.'], 'Effettuati 3 tentativi senza risposta.\nProcedere con escalation al secondo livello.');
-          }
-          if (answers.secondoLivello === 'No' && answers.risolto === 'No') {
-            return result('yellow', 'ESCALATION TERZO LIVELLO', 'Secondo livello non reperibile e richiesta non risolta.', ['Tentare con altro reperibile o secondo livello di altra cooperativa.', 'In caso di ostacoli, procedere con escalation al terzo livello.'], 'Vettore e secondo livello irreperibili.\nTentato altro reperibile/secondo livello altra cooperativa.\nEscalation terzo livello.');
-          }
-          if (answers.risolto === 'Sì') {
-            return result('green', 'GESTIONE RISOLTA', 'La richiesta è stata presa in carico.', ['Annotare i contatti effettuati e l’esito.'], 'Richiesta gestita tramite escalation/contatto alternativo.');
-          }
-          return result('yellow', 'PROSEGUIRE ESCALATION', 'Continuare la gestione secondo reperibilità.', ['Contattare vettori stessa filiale o livelli superiori secondo necessità.'], 'Gestione irreperibilità vettore in corso.');
-        }
-      },
-      {
+       evaluate: answers => {
+  if (answers.tentativi === 'No') {
+    return result(
+      'yellow',
+      'EFFETTUARE ALTRI TENTATIVI',
+      'Prima dell’escalation devono essere effettuati massimo 3 tentativi.',
+      [
+        'Effettuare un massimo di 3 tentativi.',
+        'Lasciare sempre squillare fino alla caduta della chiamata.'
+      ],
+      'Vettore irreperibile.\nEffettuare massimo 3 tentativi lasciando squillare fino alla caduta.'
+    );
+  }
+
+  if (answers.tentativi === 'Sì' && !answers.secondoLivello) {
+    return result(
+      'yellow',
+      'CONTATTARE SECONDO LIVELLO',
+      'Dopo 3 tentativi senza risposta occorre contattare il secondo livello.',
+      [
+        'Contattare il secondo livello.'
+      ],
+      'Effettuati 3 tentativi senza risposta del vettore reperibile.\nContattare il secondo livello.'
+    );
+  }
+
+  if (answers.secondoLivello === 'Non ancora contattato') {
+    return result(
+      'yellow',
+      'ESCALATION SECONDO LIVELLO',
+      'Il secondo livello non è stato ancora contattato.',
+      [
+        'Contattare il secondo livello.'
+      ],
+      'Secondo livello non ancora contattato.'
+    );
+  }
+
+  if (answers.secondoLivello === 'Sì') {
+    return result(
+      'green',
+      'SECONDO LIVELLO CONTATTATO',
+      'La richiesta può essere gestita tramite il secondo livello.',
+      [
+        'La richiesta può essere evasa direttamente dal secondo livello.',
+        'Oppure il secondo livello fornisce all’operatore le indicazioni necessarie all’evasione della richiesta: altro vettore, altro palmare, ecc.'
+      ],
+      'Secondo livello contattato.\nRichiesta evasa dal secondo livello oppure gestita seguendo le indicazioni ricevute.'
+    );
+  }
+
+  if (answers.secondoLivello === 'No') {
+    return result(
+      'yellow',
+      'PROSEGUIRE ESCALATION',
+      'Il secondo livello non risponde.',
+      [
+        'Tentare con un altro vettore reperibile.',
+        'Oppure contattare il secondo livello di un’altra cooperativa.',
+        'In presenza di ulteriori ostacoli procedere con l’escalation al terzo livello secondo le modalità previste.'
+      ],
+      'Secondo livello non raggiungibile.\nTentare altro vettore reperibile o secondo livello di altra cooperativa.\nSe persistono ostacoli, escalation al terzo livello.'
+    );
+  }
+
+  return null;
+}
         id: 'stroller',
         icon: '👜',
         title: 'Consegna / sostituzione stroller',
