@@ -448,7 +448,7 @@ if (answers.denunciaFarmacia === 'Sì') {
           { id: 'tentativi', title: 'Sono stati effettuati 3 tentativi?', options: ['Sì', 'No'] },
           { id: 'secondoLivello', title: 'Il secondo livello risponde?', options: ['Sì', 'No', 'Non ancora contattato'] }
          
-        evaluate: answers => {
+
        evaluate: answers => {
   if (answers.tentativi === 'No') {
     return result(
