@@ -530,7 +530,25 @@ if (answers.denunciaFarmacia === 'Sì') {
   return null;
 }
 },
-
+{
+  id: 'rifiuto_vettore',
+  icon: '🚫',
+  title: 'Vettore rifiuta intervento',
+  desc: 'Il vettore rifiuta di effettuare consegne o interventi in emergenza.',
+  subtitle: 'Le consegne e gli interventi devono essere garantiti nei tempi di gara.',
+  questions: [],
+  evaluate: () => result(
+    'yellow',
+    'ESCALATION OPERATIVA',
+    'Le consegne e gli interventi su concentratori e contenitori devono essere effettuati nei tempi di gara.',
+    [
+      'Contattare il secondo livello dove presente.',
+      'Se il secondo livello non risponde, contattare i vettori afferenti alla stessa società/cooperativa per garantire la fornitura.',
+      'Se non disponibili, contattare gli altri vettori afferenti alla stessa filiale, anche se appartenenti ad altre cooperative.'
+    ],
+    'Vettore rifiuta l’intervento.\nAttivata escalation operativa secondo procedura.\nRicercata copertura tramite altri vettori della stessa società o filiale.'
+  )
+},
   {
   id: 'trasmissione_terminali',
   icon: '📡',
