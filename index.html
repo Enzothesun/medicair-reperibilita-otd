@@ -572,7 +572,25 @@ In caso di malfunzionamento dello stroller, procedere con la sostituzione solo s
           return result('yellow', 'INDIRIZZARE AL COMPETITOR', 'Il paziente deve contattare il numero verde del competitor per richiedere la fornitura in emergenza.', ['Non aprire intervento diretto Medicair se la gestione è del competitor.'], 'Paziente in trasferta servito da competitor.\nInvitato a contattare il numero verde del competitor.');
         }
       },
-      {
+        {
+  id: 'competitor_autorizzazione',
+  icon: '📧',
+  title: 'Paziente competitor - consegna Medicair',
+  desc: 'Paziente appartenente ad altra ditta con consegna da effettuare da Medicair.',
+  subtitle: 'È necessaria autorizzazione scritta del competitor.',
+  questions: [],
+  evaluate: () => result(
+    'yellow',
+    'AUTORIZZAZIONE NECESSARIA',
+    'Prima di procedere è necessaria un’autorizzazione scritta del competitor.',
+    [
+      'Richiedere una mail di autorizzazione al competitor.',
+      'Mettere sempre in copia inviaggio@medicair.it.',
+      'Procedere solo dopo ricezione dell’autorizzazione.'
+    ],
+    'Paziente appartenente a competitor.\nRichiesta autorizzazione scritta al competitor.\nCC: inviaggio@medicair.it.\nProcedere solo dopo autorizzazione.'
+  )
+},
         id: 'fuoriresidenza',
         icon: '🏠',
         title: 'Concentratore fuori residenza',
