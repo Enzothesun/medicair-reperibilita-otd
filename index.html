@@ -350,6 +350,19 @@ if (
           if (answers.asl === 'Torino 3' && answers.spostamento !== 'Stesso comune') {
             return result('yellow', 'AUTORIZZAZIONE NECESSARIA', 'Per ASL Torino 3 è necessaria autorizzazione se il paziente esce dal territorio ASL.', ['Verificare autorizzazione preventiva.', 'In assenza di autorizzazione non procedere.'], 'ASL Torino 3: spostamento fuori territorio ASL.\nNecessaria autorizzazione preventiva.');
           }
+         if (answers.motivo === 'Paziente già presente nella località') {
+  return result(
+    'green',
+    'PROCEDERE',
+    'Il paziente dichiara di trovarsi già presso la destinazione. La trasferta è già in atto e può essere autorizzata direttamente dall’operatore.',
+    [
+      'Autorizzare la fornitura.',
+      'Comunicare al vettore della zona in cui si trova il paziente.',
+      'Annotare che il paziente è già presso la località di destinazione.'
+    ],
+    'Paziente già presente nella località di destinazione.\nTrasferta già in atto.\nFornitura autorizzabile direttamente dall’operatore.'
+  );
+} 
 if (aslPreavviso[answers.asl] && answers.preavviso === 'No') {
   if (answers.denuncia === 'Sì') {
     return result(
