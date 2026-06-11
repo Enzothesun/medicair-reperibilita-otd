@@ -569,41 +569,27 @@ In caso di malfunzionamento dello stroller, procedere con la sostituzione solo s
         evaluate: () => result('yellow', 'VERIFICA NECESSARIA', 'Contattare il tecnico che segue abitualmente il paziente.', ['Non procedere in autonomia senza verifica tecnica.'], 'Paziente con concentratore fuori residenza.\nContattare il tecnico che segue abitualmente il paziente.')
       },
       {
-        id: 'concentratore',
-        icon: '🔧',
-        title: 'Problematiche concentratore',
-        desc: 'Segnalazione guasto o malfunzionamento concentratore.',
-        subtitle: 'Verifica guasto prima della sostituzione.',
-        questions: [
-       questions: [],
+  id: 'concentratore',
+  icon: '🔧',
+  title: 'Problematiche concentratore',
+  desc: 'Gestione guasti o malfunzionamento concentratore.',
+  subtitle: 'Verifica tramite vettore prima della sostituzione.',
+  questions: [],
   evaluate: () => result(
-  'yellow',
-  'VERIFICA TRAMITE VETTORE',
-  'Contattare il vettore per verificare l’effettivo malfunzionamento del concentratore.',
-  [
-    'Contattare il vettore.',
-    'Il vettore verifica l’effettivo malfunzionamento.',
-    'Una volta verificato il malfunzionamento, procedere con la sostituzione.'
-  ],
-  'Segnalazione problematica concentratore.\nVerifica demandata al vettore.\nSostituzione solo dopo conferma del malfunzionamento.'
-)    
+    'yellow',
+    'VERIFICA TRAMITE VETTORE',
+    'Contattare il vettore per verificare l’effettivo malfunzionamento del concentratore.',
+    [
+      'Contattare il vettore.',
+      'Il vettore verifica l’effettivo malfunzionamento.',
+      'Una volta verificato il malfunzionamento, procedere con la sostituzione.'
+    ],
+    'Segnalazione problematica concentratore.\nVerifica demandata al vettore.\nSostituzione solo dopo conferma del malfunzionamento.'
+  )
+}
+  ];
 
-return result(
-  'yellow',
-  'VERIFICA TRAMITE VETTORE',
-  'Contattare il vettore per verificare l’effettivo malfunzionamento del concentratore.',
-  [
-    'Contattare il vettore.',
-    'Il vettore verifica l’effettivo malfunzionamento.',
-    'Una volta verificato il malfunzionamento, procedere con la sostituzione.'
-  ],
-  'Segnalazione problematica concentratore.\nVerifica demandata al vettore.\nSostituzione solo dopo conferma del malfunzionamento.'
-);
-        }
-      }
-    ];
-
-    let selectedCase = null;
+let selectedCase = null;    
     let answers = {};
 
     function init() {
