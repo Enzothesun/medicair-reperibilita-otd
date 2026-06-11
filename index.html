@@ -613,6 +613,25 @@ In caso di malfunzionamento dello stroller, procedere con la sostituzione solo s
   )
 },
       {
+  id: 'ritiri',
+  icon: '📦',
+  title: 'Richieste di ritiro',
+  desc: 'Gestione richieste di ritiro apparecchiature o materiale.',
+  subtitle: 'I ritiri non vengono normalmente effettuati in emergenza.',
+  questions: [],
+  evaluate: () => result(
+    'yellow',
+    'RICHIESTE DI RITIRO',
+    'I ritiri non vengono normalmente effettuati in emergenza.',
+    [
+      'Non predisporre ritiri in reperibilità.',
+      'Invitare a richiamare il primo giorno lavorativo.',
+      'Se la richiesta proviene da Vigili del Fuoco o Forze dell’Ordine per un ritiro immediato, contattare il vettore per predisporre il ritiro.'
+    ],
+    'Richiesta di ritiro.\nI ritiri non vengono normalmente effettuati in emergenza.\nIn caso di richiesta da parte di Vigili del Fuoco o Forze dell’Ordine, contattato il vettore per predisporre il ritiro.'
+  )
+},
+      {
         id: 'fuoriresidenza',
         icon: '🏠',
         title: 'Concentratore fuori residenza',
