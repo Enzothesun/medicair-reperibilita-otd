@@ -530,7 +530,28 @@ if (answers.denunciaFarmacia === 'Sì') {
   return null;
 }
 },
-{
+
+  {
+  id: 'trasmissione_terminali',
+  icon: '📡',
+  title: 'Problema trasmissione ai terminali',
+  desc: 'Impossibilità di trasmettere i dati ai terminali.',
+  subtitle: 'Procedura da seguire in caso di urgenza.',
+  questions: [],
+  evaluate: () => result(
+    'yellow',
+    'GESTIONE ALTERNATIVA',
+    'In caso di urgenza, se non è possibile trasmettere i dati ai terminali, utilizzare il canale alternativo previsto.',
+    [
+      'Contattare il vettore tramite telefono o SMS.',
+      'Fornire i dati necessari per l’emissione della bolla manuale.',
+      'Aprire contestualmente un ticket al servizio competente.',
+      'Mettere sempre in copia Ferro e Tunesi.'
+    ],
+    'Problema trasmissione dati ai terminali.\nInvio dati al vettore tramite telefono/SMS per emissione bolla manuale.\nAperto ticket al servizio competente.\nIn copia Ferro e Tunesi.'
+  )
+},
+      {
   id: 'stroller',
   icon: '👜',
   title: 'Consegna / sostituzione stroller',
