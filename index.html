@@ -659,6 +659,25 @@ In caso di malfunzionamento dello stroller, procedere con la sostituzione solo s
     'Segnalazione problematica concentratore.\nVerifica demandata al vettore.\nSostituzione solo dopo conferma del malfunzionamento.'
   )
 },
+      {
+  id: 'gassoso_concentratore',
+  icon: '🫁',
+  title: 'Bombola gassoso con concentratore',
+  desc: 'Richiesta fornitura bombola per paziente con concentratore.',
+  subtitle: 'Verificare sempre l’effettivo esaurimento della bombola.',
+  questions: [],
+  evaluate: () => result(
+    'yellow',
+    'VERIFICA DISPONIBILITÀ BOMBOLA',
+    'Prima di procedere con la sostituzione verificare che la bombola sia effettivamente esaurita.',
+    [
+      'Verificare con il paziente che la bombola sia esaurita.',
+      'Se la bombola non è esaurita, non procedere alla sostituzione.',
+      'Se la bombola è esaurita, procedere con la sostituzione anche se il concentratore fisso e/o portatile risultano perfettamente funzionanti.'
+    ],
+    'Paziente con servizio concentratore.\nVerificato stato della bombola di ossigeno gassoso.\nSe esaurita procedere con la sostituzione indipendentemente dal corretto funzionamento delle apparecchiature.'
+  )
+},
   ];
 
 let selectedCase = null;    
