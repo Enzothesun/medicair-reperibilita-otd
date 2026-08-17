@@ -641,6 +641,27 @@ In caso di malfunzionamento dello stroller, procedere con la sostituzione solo s
     'Paziente appartenente a competitor.\nRichiesta autorizzazione scritta al competitor.\nCC: inviaggio@medicair.it.\nProcedere solo dopo autorizzazione.'
   )
 },
+{
+  id: 'competitor_prima_fornitura_trasferta',
+  icon: '🚚',
+  title: 'Paziente competitor - prima fornitura in trasferta',
+  desc: 'Prima fornitura del periodo di trasferta richiesta dalla ditta competitor.',
+  subtitle: 'È necessaria la preventiva autorizzazione del referente Medicair reperibile.',
+  questions: [],
+  evaluate: () => result(
+    'yellow',
+    'AUTORIZZAZIONE MEDICAIR NECESSARIA',
+    'La ditta competitor richiede la prima fornitura del periodo di trasferta di un proprio paziente.',
+    [
+      'Contattare il referente Medicair reperibile e comunicare la richiesta ricevuta.',
+      'Procedere solo previa autorizzazione del referente Medicair.',
+      'Se autorizzati, chiedere alla ditta competitor di inviare la richiesta a inviaggio@medicair.it.',
+      'Dopo la ricezione della mail, procedere con l’organizzazione della trasferta.'
+    ],
+    'Prima fornitura in trasferta per paziente competitor.\nContattare il referente Medicair reperibile.\nProcedere solo previa autorizzazione Medicair e dopo ricezione della mail del competitor a inviaggio@medicair.it.'
+  )
+},
+      
       {
   id: 'ritiri',
   icon: '📦',
